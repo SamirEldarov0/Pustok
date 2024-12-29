@@ -1,0 +1,27 @@
+﻿@model List<Comment>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="review-comment mb--20">
+    @foreach (var item in Model)
+    {
+        <div class="avatar">
+            <img src="~/image/icon/author-logo.png" alt="">
+        </div>
+        <div class="text">
+            <div class="rating-block mb--15">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span class="ion-android-star-outline @(i<=item.Rate?"star_on":"")"></span>
+                }
+            </div>
+            <h6 class="author">
+                @item.AppUser.FullName – <span class="font-weight-400">@item.CreatedDate.ToString("dd-MM-yyyy")</span>
+            </h6>
+            <p>
+                @item.Text
+            </p>
+        </div>
+    }
+</div>    

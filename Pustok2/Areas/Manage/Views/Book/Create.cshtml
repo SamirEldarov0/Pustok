@@ -1,0 +1,142 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <h1> Create </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter book name">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Desc" class="form-label">Desc</label>
+            @*  type="text"  *@
+            @*  id="name" placeholder="name" *@
+            <textarea asp-for="Desc" class="form-control" placeholder="Desc"></textarea>
+            <span class="text-danger" asp-validation-for="Desc"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label asp-for="ProducingPrice">ProducingPrice</label>
+                <input asp-for="ProducingPrice" class="form-control" />
+                <span class="text-danger" asp-validation-for="ProducingPrice"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                @* value="" editde qiymeti gorsenmir *@
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="DiscountedPrice">DiscountedPrice</label>
+                <input asp-for="DiscountedPrice" class="form-control" />
+                <span class="text-danger" asp-validation-for="DiscountedPrice"></span>
+            </div>
+          
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlSelect2">Tags</label>
+                <select multiple class="form-control" asp-for="TagIds" asp-items="@(new SelectList(ViewBag.Tags, "Id","Name"))">
+                </select>
+      @*           <select class="form-select" multiple aria-label="multiple select example">
+                    <option selected>Open this select menu</option>
+                    @foreach (var item in ViewBag.Tags)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+
+                    }
+                </select> *@
+                <span class="text-danger" asp-validation-for="TagIds"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label asp-for="Code">Code</label>
+                <input asp-for="Code" class="form-control" />
+                <span class="text-danger" asp-validation-for="Code"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="GenreId">Genres</label>
+                <select class="form-control" asp-for="GenreId" asp-items="@(new SelectList(ViewBag.GenreList, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="GenreId"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="AuthorId">Authors</label>
+                <select class="form-control" asp-for="AuthorId" asp-items="@(new SelectList(ViewBag.AuthorList, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="AuthorId"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="PublisherId" class="form-label">Publishers</label>
+                <select class="form-control" asp-for="PublisherId" asp-items="@(new SelectList(ViewBag.PublisherList, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="PublisherId"></span>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsAvailable">
+                    <label class="form-check-label" asp-for="IsAvailable">
+                        Availability
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-check col-md-4">
+                <input class="form-check-input" asp-for="IsFeatured">
+                <label class="form-check-label" asp-for="IsFeatured">
+                </label>
+            </div>
+            <div class="form-check col-md-4">
+                <input class="form-check-input" asp-for="IsNew">
+                <label class="form-check-label" asp-for="IsNew">
+
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="PosterImageFile">PosterImageFile</label>
+                <input asp-for="PosterImageFile" value="" />
+                <br />
+                <span class="text-danger" asp-validation-for="PosterImageFile"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="HoverPosterImageFile" value="" />
+                <br />
+                <span class="text-danger" asp-validation-for="HoverPosterImageFile"></span>
+            </div>
+
+            <div class="form-group">       
+                <input asp-for="Images" value="" />
+                <span class="text-danger" asp-validation-for="Images"></span>
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+

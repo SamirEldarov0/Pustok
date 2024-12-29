@@ -1,0 +1,208 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    // List<Genre> genres = ViewBag.Genres;
+    // SelectList selects = new SelectList(genres, "Id", "Name");
+}
+
+<div class="container-fluid">
+
+    <h1> update </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input type="text" asp-for="Name" class="form-control" id="name" placeholder="name">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Desc">Desc</label>
+            <textarea asp-for="Desc" class="form-control"></textarea>
+            <span class="text-danger" asp-validation-for="Desc"></span>
+        </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
+                <label asp-for="ProducingPrice">ProducingPrice</label>
+                <input asp-for="ProducingPrice" class="form-control" />
+                <span class="text-danger" asp-validation-for="ProducingPrice"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control"/>
+                <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="DiscountedPrice">DiscountedPrice</label>
+                <input asp-for="DiscountedPrice" class="form-control"/>
+                <span class="text-danger" asp-validation-for="DiscountedPrice"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="TagIds">Tags</label>
+                <select multiple class="form-control" asp-for="TagIds" asp-items="@(new SelectList(ViewBag.Tags, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="TagIds"></span>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label asp-for="Code">Code</label>
+                <input asp-for="Code" class="form-control"/>
+                <span class="text-danger" asp-validation-for="Code"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label asp-for="Genre">Genres</label>
+                <select  class="form-control" asp-for="GenreId" asp-items="@(new SelectList(ViewBag.GenreList, "Id","Name"))">
+
+                </select>
+                <span class="text-danger" asp-validation-for="GenreId"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlSelect2">Authors</label>
+                <select  class="form-control" asp-for="AuthorId" asp-items="@(new SelectList(ViewBag.AuthorList, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="AuthorId"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="exampleFormControlSelect2">Example multiple select</label>
+                <select class="form-control" asp-for="PublisherId" asp-items="@(new SelectList(ViewBag.PublisherList, "Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="PublisherId"></span>
+            </div>
+
+      
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsAvailable">
+                    <label class="form-check-label" asp-for="IsAvailable">
+
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-check col-md-4">
+                <input class="form-check-input" asp-for="IsFeatured">
+                <label class="form-check-label" asp-for="IsFeatured">
+                </label>
+            </div>
+            <div class="form-check col-md-4">
+                <input class="form-check-input" asp-for="IsNew">
+                <label class="form-check-label" asp-for="IsNew">
+
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group poster-hover">
+                @{
+                    BookImage bookImagePoster = Model.BookImages.FirstOrDefault(x => x.PosterStatus == true);
+                }
+                @if (bookImagePoster!=null)
+                {
+                    <div class="img-box d-inline-block" style="position:relative">
+                        <i class="fas fa-times img-remove" style="position: absolute; top: -8px;color: red;right:-8px;"></i>
+                        <img src="~/uploads/books/@bookImagePoster.Image" src="Alternate Text" width="200" height="250" />
+                    </div>
+
+                }
+                <input asp-for="PosterImageFile"/>
+                <span class="text-danger" asp-validation-for="PosterImageFile"></span>
+            </div>
+
+            <div class="form-group poster-hover">
+                @{
+                    BookImage bookHoverImage = Model.BookImages.FirstOrDefault(x => x.PosterStatus == false);
+                }
+                @if (bookHoverImage!=null)
+                {
+                    @* <div class="img-box d-inline-block" style="position:relative"> *@
+                        @* <img src="~/uploads/books/@bookHoverImage.Image" src="Alternate Text" width="200" height="250" /> *@
+                    @* </div> *@
+                    <div class="img-box d-inline-block" style="position:relative">
+                        <i class="fas fa-times img-remove" style="position: absolute; top: -8px;color: red;right:-8px;"></i>
+                        <img src="~/uploads/books/@bookHoverImage.Image" src="Alternate Text" width="200" height="250" />
+                    </div>
+                }
+                <input asp-for="HoverPosterImageFile"/>
+                <span class="text-danger" asp-validation-for="HoverPosterImageFile"></span>
+            </div>
+
+            <div class="form-group img-list">
+                @{
+                    List<BookImage> bookImages = Model.BookImages.Where(x => x.PosterStatus == null).ToList();
+                }
+                @if (bookImages!=null)
+                {
+                    @foreach (var item in bookImages)
+                    {
+                        <div class="img-box d-inline-block mr-3" style="position:relative">
+                            <i class="fas fa-times img-remove" style="position: absolute; top: -8px;color: red;right:-8px;"></i>
+                            <img src="~/uploads/books/@item.Image" src="Alternate Text" width="200" height="250" />
+                            @* <input type="hidden" name="ImageIds" value="@item.Image" /> *@
+
+                        </div>
+                    }
+                }
+                <input asp-for="Images" />
+                <span class="text-danger" asp-validation-for="Images"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger removeAll">Delete All</button>
+                <br />
+                <button class="btn btn-danger bringThemBack mt-3">Bring All Back</button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+@section Scripts{
+    <script>
+        // $(document).ready(function () {
+        //     $(document).on("click", ".img-remove", function () {
+        //         $(this).parent().empty()
+        //     })
+        // });
+
+        $(document).ready(function(){
+            $(".img-remove").on("click", function () {
+                $(this).parent().empty()
+            })
+        })
+
+        $(document).ready(function(){
+            
+            $(".removeAll").on("click",function(e){
+                e.preventDefault();
+                $(".img-box").empty();
+                $(this).parent().empty();
+            })
+
+            // $(".bringThemBack").on("click", function (e) {
+            //     e.preventDefault();
+            //     $(".img-box").show();
+            //     $(".removeAll").parent().show();
+            //     $(this).hide();
+            // })
+        })
+    </script>
+}
+

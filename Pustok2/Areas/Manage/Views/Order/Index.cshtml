@@ -1,0 +1,69 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+    int order = (ViewBag.SelectedPage-1)*2+1;
+}
+
+<div class="container-fluid">
+    <h1>Orders...</h1>
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Book Count</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@order</td>
+                    <td>@item.AppUser.FullName</td>
+                    <td>@item.OrderItems.Count()</td>
+                    <td>@item.OrderedDate.ToString("dd - MM - yyyy || hh-mm-ss")</td>
+                    <td>@item.TotalPrice</td>
+                    <td>
+                        @if (item.Status == null)
+                        {
+                            <span class="badge badge-warning">Pending</span>
+                        }
+                        else if (item.Status == true)
+                        {
+                            <span class="badge badge-success">Accepted</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="detail" asp-route-id="@item.Id" class="btn btn-warning">Detail</a>
+                    </td>
+                </tr>
+                order++;
+            }
+        </tbody>
+    </table>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage-1)">Previous</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item @(ViewBag.SelectedPage==i?"active":"")"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+            }
+           
+            <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link asp-action="index" asp-route-page="@(ViewBag.SelectedPage+1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+

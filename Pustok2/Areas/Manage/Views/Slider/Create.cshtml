@@ -1,0 +1,32 @@
+﻿@model Slider
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input type="text" asp-for="Title" class="form-control" id="Title" placeholder="Title">
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Subtitle">Subtitle</label>
+            <input type="text" asp-for="Subtitle" class="form-control" id="Subtitle" placeholder="Subtitle">
+            <span class="text-danger" asp-validation-for="Subtitle"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.PriceText">Price Text</label>
+            <input type="text" asp-for="PriceText" class="form-control" id="PriceText" placeholder="PriceText">
+            <span class="text-danger" asp-validation-for="PriceText"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.ImageFile">Image</label>
+            <input asp-for="ImageFile"/>
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

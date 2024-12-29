@@ -1,0 +1,29 @@
+﻿@model BookTag
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid">
+    <form method="post">
+        <div class="row">
+            <div class="col-6">
+                <label asp-for="TagId" class="form-label">Tags</label>
+                <select class="form-select" asp-for="TagId" asp-items="@(new SelectList(ViewBag.Tags, "Id","Name"))" aria-label=" Large select tags">
+                    @*                   <option selected>Open this select menu</option>
+                    @foreach (var item in ViewBag.Tags)
+                    {
+                    <option value="@item.Id">@item.Name</option>
+                    } *@
+                </select>
+                <span class="text-danger" asp-validation-for="TagId"></span>
+            </div>
+@* 
+            <div class="col-6">
+                <label asp-for=BookId class="col-form-label-lg">Books</label>
+                <select class="form-select form-select-lg" asp-for="BookId" asp-items="@(new SelectList(ViewBag.Books,"Id","Name"))">
+                </select>
+                <span class="text-danger" asp-validation-for="BookId"></span>
+            </div> *@
+        </div>
+    </form>
+</div>

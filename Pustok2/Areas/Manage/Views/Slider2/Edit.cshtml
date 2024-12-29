@@ -1,0 +1,45 @@
+﻿@model Slider
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for=Title class="form-label">Title</label>
+                <input asp-for=Title class="form-control" placeholder="Enter your title"/>
+                <span class="text-danger" asp-validation-for="Title"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for=Subtitle class="form-label">Subtitle</label>
+                <input asp-for=Subtitle class="form-control" placeholder="Enter your subtitle" />
+                <span class="text-danger" asp-validation-for="Subtitle"></span>
+            </div>
+            <div class="col-md-12">
+                <label asp-for=PriceText class="form-label">PriceText</label>
+                <input asp-for=PriceText class="form-control" placeholder="Enter your pricetext" />
+                <span class="text-danger" asp-validation-for="PriceText"></span>
+            </div>
+            <div class="col-md-12">
+
+                <img style="height:200px;width:200px;" id="willbedeleted" src="~/uploads/sliders/@Model.Image" />
+                <img src="~/manage/img/added/delete.png" id="del-img" />
+
+                <label asp-for=ImageFile class="form-label">ImageFile</label>
+                <input type="file" asp-for=ImageFile class="form-control" placeholder="Enter your imagefile" />
+                <span class="text-danger" asp-validation-for="ImageFile"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $("#del-img").on("click",e=>{
+                $("#wilbedeleted").hide();
+            })
+        })
+    </script>
+}

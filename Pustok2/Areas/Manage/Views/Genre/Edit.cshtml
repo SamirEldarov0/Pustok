@@ -1,0 +1,21 @@
+﻿@model Genre
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <h1> create </h1>
+
+    <form method="post">
+         @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@
+        <div class="form-group">
+            @* labelde Name yerine @Model.Name yaz *@
+            <label asp-for="@Model.Name">Name</label>
+            <input type="text" asp-for="@Model.Name" class="form-control" id="name" placeholder="name">
+            <span class="text-danger" asp-validation-for="@Model.Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+

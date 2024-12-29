@@ -1,0 +1,52 @@
+﻿@* @inject Pustok2.Services.LayoutService layoutService
+@{
+    BasketViewModel basketViewModel = layoutService.GetBasket();
+} *@
+@model BasketViewModel
+<div class="cart-block">
+    <div class="cart-total">
+        <span class="text-number">
+            @Model.Count
+        </span>
+        <span class="text-item">
+            Shopping Cart
+        </span>
+        <span class="price">
+            £@Model.TotalPrice
+            <i class="fas fa-chevron-down"></i>
+        </span>
+    </div>
+    <div class="cart-dropdown-block">
+        <div class=" single-cart-block ">
+            @foreach (var item in Model.BasketViewItems)
+            {
+                <div class="cart-product">
+                    <a asp-controller="book" asp-action="detail" asp-route-id="@item.Book.Id" class="image">
+                        <img src="~/image/products/@item.Book.BookImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" alt="">
+                        @* cart-product-1.jpg *@
+                    </a>
+                    <div class="content">
+                        <h3 class="title">
+                            <a href="product-details.html">
+                                @item.Book?.Name
+                            </a>
+                        </h3>
+                        <p class="price"><span class="qty">@item.Count ×</span> £@item.Book?.DiscountedPrice</p>
+                        <a id="crossbtn" asp-controller="book" asp-action="deletebookinbasket" asp-route-id="@item.Book.Id" dataid="@item.Book.Id" class="cross-btn"><i class="fas fa-times"></i></a>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class=" single-cart-block ">
+            <div class="btn-block">
+                <a href="cart.html" class="btn">
+                    View Cart <i class="fas fa-chevron-right"></i>
+                </a>
+                <a asp-controller="order" asp-action="checkout" class="btn btn--primary">
+                    Check Out <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

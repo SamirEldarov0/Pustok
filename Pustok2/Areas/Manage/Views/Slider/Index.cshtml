@@ -1,0 +1,101 @@
+﻿@model List<Slider>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+    int order = (ViewBag.SelectedPage-1)+1;
+}
+<div class="container-fluid">
+    <h1>Slider Table</h1>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" asp-controller="slider" asp-action="create">Add New</a>   @* add olunub 3 setr *@
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Subtitle</th>
+                <th scope="col">Price Text</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@order</th>
+                    <td>@Html.Raw(item.Title)</td>
+                    <td>@item.Subtitle</td>
+                    <td>@item.PriceText</td>
+                    <td>
+                        <a asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a>
+                        <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger item-delete">Delete</a>
+                    </td>
+
+                </tr>
+                order++;
+            }
+        </tbody>
+    </table>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li style="@(ViewBag.SelectedPage==1?"background-color:yellow;pointer-events:none;":"")" class="page-item">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage-1)" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item @(ViewBag.SelectedPage==i?"active":"")"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+            }
+            <li style="@(ViewBag.SelectedPage==ViewBag.TotalPage?"background-color:yellow;pointer-events:none;":"")" class="page-item">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage+1)" tabindex="-1">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".item-delete", function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var url = $(this).attr("href");
+
+
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status == 200) {
+                                    //sehifeni refresh et
+                                    location.reload(true);
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Not Found!",
+                                        text: "test",
+                                        // text: "Your file has been deleted.",
+                                        icon: "error"
+                                    });
+                                }
+                            });
+                    }
+                });
+            })
+        })
+
+
+    </script>
+}
+
+

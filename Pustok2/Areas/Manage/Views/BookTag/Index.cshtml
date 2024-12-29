@@ -1,0 +1,51 @@
+﻿@model List<BookTag>
+@{
+    ViewData["Title"] = "Index";
+    int order = (ViewBag.SelectedPage - 1) * 4 + 1;
+}
+<div class="container-md">
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" asp-action="create">Add New</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Book Name</th>
+                <th scope="col">Tag Name</th>
+                <th scope="col">
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@order</th>
+                    <td>@item.BookId - @item.Book.Name</td>
+                    <td>@item.TagId - @item.Tag.Name</td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger item-delete" asp-action="edit" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage-1)">Previous</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage ; i++)
+            {
+                <li class="page-item @(ViewBag.SelectedPage==i?"active":"")"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+            }
+            <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage+1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>

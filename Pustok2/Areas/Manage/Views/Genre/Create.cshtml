@@ -1,0 +1,24 @@
+﻿@model Genre
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1> Create </h1>
+    <form method="post">       @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@ 
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="@Model.Name" class="form-control" placeholder="Enter the name">
+            <span class="text-danger" asp-validation-for="@Model.Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+@* 
+<form>
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Example file input</label>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+</form> *@

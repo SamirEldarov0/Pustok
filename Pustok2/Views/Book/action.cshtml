@@ -1,0 +1,465 @@
+﻿@model List<Book>
+@{
+    ViewData["Title"] = "action";
+}
+
+<section class="breadcrumb-section">
+	<h2 class="sr-only">Site Breadcrumb</h2>
+	<div class="container">
+		<div class="breadcrumb-contents">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+					<li class="breadcrumb-item active">Shop</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</section>
+
+	<div class="site-wrapper" id="top">
+		<main class="inner-page-sec-padding-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 order-lg-2">
+					<div class="shop-toolbar mb--30">
+						<div class="row align-items-center">
+							<div class="col-lg-2 col-md-2 col-sm-6">
+								<!-- Product View Mode -->
+								<div class="product-view-mode">
+									<a href="#" class="sorting-btn" data-target="grid"><i class="fas fa-th"></i></a>
+									<a href="#" class="sorting-btn" data-target="grid-four">
+										<span class="grid-four-icon">
+											<i class="fas fa-grip-vertical"></i><i class="fas fa-grip-vertical"></i>
+										</span>
+									</a>
+									<a href="#" class="sorting-btn active" data-target="list ">
+										<i class="fas fa-list"></i>
+									</a>
+								</div>
+							</div>
+							<div class="col-xl-5 col-md-4 col-sm-6  mt--10 mt-sm--0">
+								<span class="toolbar-status">
+									Showing 1 to 9 of 14 (2 Pages)
+								</span>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6  mt--10 mt-md--0">
+								<div class="sorting-selection">
+									<span>Show:</span>
+									<select class="form-control nice-select sort-select">
+										<option value="" selected="selected">3</option>
+										<option value="">9</option>
+										<option value="">5</option>
+										<option value="">10</option>
+										<option value="">12</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mt--10 mt-md--0 ">
+								<div class="sorting-selection">
+									<span>Sort By:</span>
+									<select name="sort" id="sort" class="form-control nice-select sort-select mr-0">
+										@if (string.IsNullOrEmpty(ViewBag.Sort))
+										{
+											<option value="" selected="selected">Default Sorting</option>
+										}
+										@if (ViewBag.Sort == "FromAToZ")
+										{
+											<option value="FromAToZ" selected="selected">
+												Sort
+												By:Name (A - Z)
+											</option>
+										}
+										else
+										{
+											<option value="FromAToZ">
+												Sort
+												By:Name (A - Z)
+											</option>
+										}
+										@if (ViewBag.Sort == "FromZToA")
+										{
+											<option value="FromZToA" selected="selected">
+												Sort
+												By:Name (Z - A)
+											</option>
+										}
+										else
+										{
+											<option value="FromZToA">
+												Sort
+												By:Name (Z - A)
+											</option>
+										}
+										@if (ViewBag.Sort == "LowToHigh")
+										{
+											<option value="LowToHigh" selected="selected">
+												Sort
+												By:Price (Low To High)
+											</option>
+										}
+										else
+										{
+											<option value="LowToHigh">
+												Sort
+												By:Price (Low To High)
+											</option>
+										}
+										@if (ViewBag.Sort == "HighToLow")
+										{
+											<option value="HighToLow" selected="selected">
+												Sort
+												By:Price (High To Low)
+											</option>
+										}
+										else
+										{
+											<option value="HighToLow">
+												Sort
+												By:Price (High To Low)
+											</option>
+										}
+
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="shop-toolbar d-none">
+						<div class="row align-items-center">
+							<div class="col-lg-2 col-md-2 col-sm-6">
+								<!-- Product View Mode -->
+								<div class="product-view-mode">
+									<a href="#" class="sorting-btn active" data-target="grid"><i class="fas fa-th"></i></a>
+									<a href="#" class="sorting-btn" data-target="grid-four">
+										<span class="grid-four-icon">
+											<i class="fas fa-grip-vertical"></i><i class="fas fa-grip-vertical"></i>
+										</span>
+									</a>
+									<a href="#" class="sorting-btn" data-target="list "><i class="fas fa-list"></i></a>
+								</div>
+							</div>
+							<div class="col-xl-5 col-md-4 col-sm-6  mt--10 mt-sm--0">
+								<span class="toolbar-status">
+									Showing 1 to 9 of 14 (2 Pages)
+								</span>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6  mt--10 mt-md--0">
+								<div class="sorting-selection">
+									<span>Show:</span>
+									<select class="form-control nice-select sort-select">
+										<option value="" selected="selected">3</option>
+										<option value="">9</option>
+										<option value="">5</option>
+										<option value="">10</option>
+										<option value="">12</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mt--10 mt-md--0 ">
+								<div class="sorting-selection">
+									<span>Sort By:</span>
+									<select class="form-control nice-select sort-select mr-0">
+										<option value="" selected="selected">Default Sorting</option>
+										<option value="">
+											Sort
+											By:Name (A - Z)
+										</option>
+										<option value="">
+											Sort
+											By:Name (Z - A)
+										</option>
+										<option value="">
+											Sort
+											By:Price (Low &gt; High)
+										</option>
+										<option value="">
+											Sort
+											By:Price (High &gt; Low)
+										</option>
+										<option value="">
+											Sort
+											By:Rating (Highest)
+										</option>
+										<option value="">
+											Sort
+											By:Rating (Lowest)
+										</option>
+										<option value="">
+											Sort
+											By:Model (A - Z)
+										</option>
+										<option value="">
+											Sort
+											By:Model (Z - A)
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="shop-product-wrap list with-pagination row space-db--30 shop-border">
+						@foreach (var item in Model)
+						{
+							<div class="col-lg-4 col-sm-6">
+								<div class="product-card card-style-list">
+									<div class="product-grid-content">
+										<div class="product-header">
+											<a href="#" class="author">
+												@item.Author.Name
+											</a>
+											<h3><a asp-controller="book" asp-action="detail" asp-route-id="@item.Id">@item.Name</a></h3>
+										</div>
+										<div class="product-card--body">
+											<div class="card-image">
+												<img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" alt="">
+												<div class="hover-contents">
+													<a asp-action="detail" asp-controller="book" asp-route-id="@item.Id" class="hover-image">
+														<img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==false)?.Image" alt="">
+													</a>
+													<div class="hover-btns">
+														<a asp-action="addtobasket" asp-route-id="@item.Id" class="single-btn">
+															<i class="fas fa-shopping-basket"></i>
+														</a>
+														<a href="wishlist.html" class="single-btn">
+															<i class="fas fa-heart"></i>
+														</a>
+														<a href="compare.html" class="single-btn">
+															<i class="fas fa-random"></i>
+														</a>
+														<a asp-action="getdetailedbook" asp-route-id="@item.Id"
+														   class="show-book-modal single-btn">															
+															<i class="fas fa-eye"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+											<div class="price-block">
+												@if (item.DiscountedPrice == item.Price)
+												{
+													<span class="price">£@item.DiscountedPrice</span>
+													<del class="price-old">£@item.DiscountedPrice</del>
+												}
+												else
+												{
+													<span class="price">£@item.DiscountedPrice</span>
+													<del class="price-old">£@item.Price</del>
+												}
+												@* <span class="price-discount">@item.BookCampaigns.FirstOrDefault().Campaign.DiscountPercent</span> *@
+											</div>
+										</div>
+									</div>
+									<div class="product-list-content">
+										<div class="card-image">
+											<img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" alt="">
+										</div>
+										<div class="product-card--body">
+											<div class="product-header">
+												<a href="#" class="author">
+													@item.Author.Name
+												</a>
+												<h3>
+													<a asp-controller="book" asp-action="detail" asp-route-id="@item.Id" tabindex="0">
+														@item.Name
+													</a>
+												</h3>
+											</div>
+											<article>
+												<h2 class="sr-only">Card List Article</h2>
+												<p>
+													@item.Desc
+												</p>
+											</article>
+											<div class="price-block">
+												@if (item.DiscountedPrice == item.Price)
+												{
+													<span class="price">£@item.DiscountedPrice</span>
+													<del class="price-old">£@item.DiscountedPrice</del>
+												}
+												else
+												{
+													<span class="price">£@item.DiscountedPrice</span>
+													<del class="price-old">£@item.Price</del>
+												}
+
+												@* <span class="price-discount">20%</span> *@
+											</div>
+											<div class="rating-block">
+												@for (int i = 1; i <= 5; i++)
+												{
+													<span class="fas fa-star @(i<=item.Rate?"star_on":"")"></span>
+												}
+											</div>
+											<div class="btn-block">
+												<a href="#" class="btn btn-outlined">Add To Cart</a>
+												<a href="#" class="card-link"><i class="fas fa-heart"></i> Add To Wishlist</a>
+												<a href="#" class="card-link"><i class="fas fa-random"></i> Add To Cart</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+
+				
+
+					<!-- Pagination Block -->
+					<!-- Pagination Block -->
+					<div class="row pt--30">
+						<div class="col-md-12">
+							<div class="pagination-block">
+								<ul class="pagination-btns flex-center">
+
+									<li>
+										<a asp-action="action" asp-route-sort="@ViewBag.Sort" asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice" asp-route-page="1" asp-route-genreId="@ViewBag.GenreId" class="single-btn prev-btn ">|<i class="zmdi zmdi-chevron-left"></i> </a>
+									</li>
+									@* style="background-color:black" *@
+									<li style="@(ViewBag.SelectedPage==1?"background-color:green;pointer-events:none;":"")">
+										<a asp-action="action" asp-route-sort="@ViewBag.Sort" asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice" asp-route-page="@(ViewBag.SelectedPage-1)" asp-route-genreId="@ViewBag.GenreId" class="single-btn prev-btn "><i class="zmdi zmdi-chevron-left"></i> </a>
+									</li>
+									@for (int i = 1; i <= ViewBag.TotalPage; i++)
+									{
+										<li class="@(ViewBag.SelectedPage==i?"active":"")"><a asp-action="action" asp-route-genreId="@ViewBag.GenreId" asp-route-sort="@ViewBag.Sort" asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice" asp-route-page="@i" class="single-btn">@i</a></li>
+									}
+									<li>
+										<a asp-action="action" asp-route-sort="@ViewBag.Sort" asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice" asp-route-genreId="@ViewBag.GenreId" asp-route-page="@(ViewBag.SelectedPage==ViewBag.TotalPage?$"{ViewBag.TotalPage}":$"{ViewBag.SelectedPage+1}")" class="single-btn next-btn"><i class="zmdi zmdi-chevron-right"></i></a>
+									</li>
+									<li>
+										<a asp-action="action" asp-route-sort="@ViewBag.Sort" asp-route-minPrice="@ViewBag.SelectedMinPrice" asp-route-maxPrice="@ViewBag.SelectedMaxPrice" asp-route-page="@ViewBag.TotalPage" asp-route-genreId="@ViewBag.GenreId" class="single-btn next-btn"><i class="zmdi zmdi-chevron-right"></i>|</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- Modal -->
+					<div class="modal fade modal-quick-view" id="quickModal" tabindex="-1" role="dialog"
+						 aria-labelledby="quickModal" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								<div class="product-details-modal">
+									
+								</div>
+								<div class="modal-footer">
+									<div class="widget-social-share">
+										<span class="widget-label">Share:</span>
+										<div class="modal-social-share">
+											<a href="#" class="single-icon"><i class="fab fa-facebook-f"></i></a>
+											<a href="#" class="single-icon"><i class="fab fa-twitter"></i></a>
+											<a href="#" class="single-icon"><i class="fab fa-youtube"></i></a>
+											<a href="#" class="single-icon"><i class="fab fa-google-plus-g"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="col-lg-3  mt--40 mt-lg--0">
+						<div class="inner-page-sidebar">
+							<!-- Accordion -->
+							<div class="single-block">
+								<h3 class="sidebar-title">Categories</h3>
+								<ul class="sidebar-menu--shop">
+									@foreach (var item in ViewBag.Genres)
+									{
+									<li><a style="@(item.Id==ViewBag.GenreId?"color:#62ab00":"")" asp-action="action" 
+										asp-route-sort="FromAToZ" asp-route-genreId="@item.Id">@item.Name (@item.Books.Count)</a></li>
+									}
+								</ul>
+							</div>
+							<!-- Price -->
+							<div class="single-block">
+								<h3 class="sidebar-title">Fillter By Price</h3>
+								<div class="range-slider pt--30">
+								<div class="sb-range-slider"></div>
+									<div class="slider-price">
+										<p>
+										     <input type="text" id="amount" readonly="">
+										</p>
+									</div>
+								</div>
+							</div>
+	
+			@* 				<!-- Promotion Block -->
+							<div class="single-block">
+								<a href="#" class="promo-image sidebar">
+									<img src="image/others/home-side-promo.jpg" alt="">
+								</a>
+							</div> *@
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+@section Scripts
+{
+	<script>
+		$(document).ready(function(){
+			$("#sort").on("change",function(e){
+				var url=new URL(window.location.href);
+				url.searchParams.delete("sort");
+				url.searchParams.append("sort",$(this).val())
+				window.location.href=url
+			})
+			// $(document).on("change","#sort",function(e){
+			// 	console.log($(this).val())
+			// 	var url = new URL(window.location.href);
+			// 	url.searchParams.delete("sort");
+			
+			// 	url.searchParams.append("sort", $(this).val());
+			// 	window.location.href = url;
+			// })
+
+			$(function () {
+				// var selectedMin = $("#selectedMin").val();
+				// var selectedMax = $("#selectedMax").val();
+
+				$(".sb-range-slider").slider({
+					range: true,
+					min: 0,
+					max: 753,
+					values: [80, 350],
+					slide: function (event, ui) {
+						$("#amount").val("£" + ui.values[0] + " - £" + ui.values[1]);
+						// console.log('slide');
+						// console.log(values :  + ui.values[0] + ' - ' + ui.values[1])
+					},
+					stop: function (event, ui) {//buraxdigi an
+						$("#amount").val("£" + ui.values[0] + " - £" + ui.values[1]);
+						console.log($("#amount").val())
+						console.log("values : " + ui.values[0] + ' - ' + ui.values[1])
+						console.log(window.location.href)
+						var url = new URL(window.location.href);
+						if(url.searchParams){
+							url.searchParams.delete("minPrice");
+							url.searchParams.delete("maxPrice");
+						}
+
+						url.searchParams.append("minPrice", ui.values[0]);
+						url.searchParams.append("maxPrice", ui.values[1]);
+						// let price = "&minPrice=" + ui.values[0] + "&maxPrice=" + ui.values[1]
+						// var baseURL = window.location.href + price;
+						// fetch(baseURL)
+						// 	.then(res=>res.json())
+						// 	.then(data=>{
+						// 		window.location.href=baseURL
+						// 	})
+						console.log(window.location.href)
+						//window.location.href = url.href
+						console.log(url)
+						//window.location.href = url.href;
+					
+					}
+				});
+				$("#amount").val("£" + $(".sb-range-slider").slider("values", 0) +
+					" - £" + $(".sb-range-slider").slider("values", 1));
+			});
+
+			//$(".sb-range-slider").slider("option", "values", [100, 200]);
+
+		})
+	</script>
+}

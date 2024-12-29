@@ -1,0 +1,92 @@
+﻿@model List<Comment>
+@{
+    ViewData["Title"] = "CommentBook";
+    int order = (ViewBag.SelectedPage-1)*2+1;
+}
+
+<div class="container-fluid">
+    <h1>CommentBook</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">FullName</th>
+                <th scope="col">Rate</th>
+                <th scope="col">CreatedDate<th>
+                <th scope="col">Status<th>               
+                <th scope="col">Text<th>
+                <th scope="col">
+                <th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@order</th>
+                    <td scope="row">@item.AppUser.FullName</td>
+                    <td scope="row">@item.Rate</td>
+                    <td scope="row">@item.CreatedDate.ToString("dd-MM-yyyy hh:mm:ss")</td>
+                    <td scope="row">
+                        @if (item.Status==null)
+                        {
+                            <span class="badge badge-warning">Pending</span>
+                        }
+                        else if (item.Status == true)
+                        {
+                            <span class="badge badge-success">Accepted</span>
+
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Rejected</span>
+                        }
+                    </td>
+                    @if (item.Text.Length>30)
+                    {
+                        <td scope="row" data-toggle="tooltip" class="maintool" data-placement="bottom" title="@item.Text">@(item.Text.Substring(0, 30) + "...")</td>
+                    }
+                    else
+                    {
+                        <td scope="row">@item.Text</td>
+                    }
+                    <td scope="row">
+                        @if (item.Status==null)
+                        {
+                            <a asp-action="commentaccept" asp-route-commentId="@item.Id" class="btn btn-success">Accept</a>
+                            <a asp-action="commentreject" asp-route-commentId="@item.Id" class="btn btn-danger">Reject</a>
+                        }
+                        else if(item.Status==true)
+                        {
+                            <a asp-action="commentreject" asp-route-commentId="@item.Id" class="btn btn-danger">Reject</a>
+                        }
+                        else
+                        {
+                            <a asp-action="commentaccept" asp-route-commentId="@item.Id" class="btn btn-success">Accept</a>
+                        }
+
+                    </td>
+                </tr>
+                order++;
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")">
+                <a class="page-link" asp-controller="book" asp-action="commentbook" asp-route-bookId="@ViewBag.BookId" asp-route-page="@(ViewBag.SelectedPage-1)" tabindex="-1">Previous</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item @(ViewBag.SelectedPage==i?"active":"")"><a class="page-link" asp-controller="book" asp-action="commentbook" asp-route-bookId="@ViewBag.BookId" asp-route-page="@i">@i</a></li>
+            }    
+            <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link" asp-controller="book" asp-action="commentbook" asp-route-bookId="@ViewBag.BookId" asp-route-page="@(ViewBag.SelectedPage+1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+

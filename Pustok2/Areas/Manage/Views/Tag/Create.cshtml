@@ -1,0 +1,18 @@
+﻿@model BookTag
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<h1>Create</h1>
+<div class="container-fluid">
+    <form method="post">
+        @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@
+        <div class="form-group">
+            <label asp-for="@Model.Tag.Name">Name</label>
+            <input type="text" asp-for="@Model.Tag.Name" class="form-control" id="name" placeholder="name">
+            <span class="text-danger" asp-validation-for="@Model.Tag.Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+

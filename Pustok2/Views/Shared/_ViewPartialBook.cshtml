@@ -1,0 +1,55 @@
+﻿@model List<Book>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@foreach (var item in Model)
+{
+    <div class="single-slide">
+        <div class="product-card">
+            <div class="product-header">
+                <a href="#" class="author">
+                    @item.Author.Name
+                </a>
+                <h3><a asp-controller="book" asp-action="detail" asp-route-id="@item.Id">@item.Name</a></h3>
+            </div>
+            <div class="product-card--body">
+                <div class="card-image">
+                    <img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==true)?.Image" alt="">
+                    <div class="hover-contents">
+                        <a asp-controller="book" asp-action="detail" asp-route-id="@item.Id" class="hover-image">
+                            <img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==false)?.Image" alt="">
+                        </a>
+                        <div class="hover-btns">
+                            <a asp-controller="book" asp-action="addtobasket" asp-route-id="@item.Id" class="single-btn addtobasket">
+                                <i class="fas fa-shopping-basket"></i>
+                            </a>
+                            <a href="wishlist.html" class="single-btn">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                            <a href="compare.html" class="single-btn">
+                                <i class="fas fa-random"></i>
+                            </a>
+                            <a asp-controller="book" asp-action="getdetailedbook" asp-route-id="@item.Id"
+                               class="show-book-modal single-btn">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="price-block">
+                    @if (item.DiscountedPrice == item.Price)
+                    {
+                        <span class="price">£@item.Price</span>
+                    }
+                    else
+                    {
+                        <span class="price">£@item.DiscountedPrice</span>
+                        <del class="price-old">£@item.Price</del>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

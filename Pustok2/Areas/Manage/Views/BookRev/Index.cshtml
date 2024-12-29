@@ -1,0 +1,83 @@
+﻿@model List<Book>
+@{
+    ViewData["Title"] = "Index";
+    int order = (ViewBag.SelectedPage - 1) * 4 + 1;
+    string str = "";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-end">
+        <a asp-action="create" class="btn btn-primary">Add New</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">ProducingPrice</th>
+                <th scope="col">Price</th>
+                <th scope="col">DiscountedPrice</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Code</th>
+                <th scope="col">Desc</th>
+                <th scope="col">Availability</th>
+                <th scope="col">New</th>
+                <th scope="col">Feature</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@order</th>
+                    <td>@item.Name</td>
+                    <td>@item.GenreId - @item.Genre.Name</td>
+                    <td>@item.AuthorId @item.Author.Name</td>
+                    <td>@item.PublisherId @item.Publisher.Name</td>
+                    <td>@item.ProducingPrice</td>
+                    <td>@item.Price</td>
+                    <td>@item.DiscountedPrice</td>
+                    <td>@item.Rate</td>
+                    <td>@item.Code</td>
+                    <td>@item.Desc</td>
+                    <td>@item.IsAvailable</td>
+                    <td>@item.IsNew</td>
+                    <td>@item.IsFeatured</td>
+        @*             <td>
+                        
+                        @foreach (var bookTag in item.BookTags)
+                        {
+                            str += bookTag.Tag.Name + ",";
+                        }
+                        str=str
+                    </td> *@
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")" ">
+                <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage-1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item"><a class="page-link @(ViewBag.SelectedPage==i?"active":"")" asp-action="index" asp-route-page="@i">@i</a></li>
+            }
+            <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                <a class="page-link asp-action="index" asp-route-page="@(ViewBag.SelectedPage+1)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+

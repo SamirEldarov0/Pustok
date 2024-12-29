@@ -1,0 +1,437 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Detail";
+}
+@{
+    string tags="";
+    // int id = ViewBag.bookID;
+    // foreach (var item in Model.FirstOrDefault(x=>x.Id==id).BookTags.FirstOrDefault(x=>x.Id))
+    // {
+    //     tags += item.Tag.Name + ",";
+    // }
+    //tags=tags.Substring(0, tags.Length - 1);
+    //str = str.Remove(str.Length - 1);
+    List<Book> books = ViewBag.RelatedBooks;
+    CommentShowViewModel csVM = ViewBag.CommentShow;
+}
+@{
+    //List<Book> books=Model.Genre.Books.Where(x=>x.GenreId==x.)
+    //List<Book> books = Model.Genre.Books.Where(x => x.GenreId == Model.GenreId).ToList();
+
+}
+        <section class="breadcrumb-section">
+            <h2 class="sr-only">Site Breadcrumb</h2>
+            <div class="container">
+                <div class="breadcrumb-contents">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="home" asp-action="index">Home</a></li>
+                            <li class="breadcrumb-item active">Product Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <main class="inner-page-sec-padding-bottom">
+            <div class="container">
+                <div class="row  mb--60">
+                    <div class="col-lg-5 mb--30">
+                        <!-- Product Details Slider Big Image-->
+                        <div class="product-details-slider sb-slick-slider arrow-type-two" data-slick-setting='{
+                              "slidesToShow": 1,
+                              "arrows": false,
+                              "fade": true,
+                              "draggable": false,
+                              "swipe": false,
+                              "asNavFor": ".product-slider-nav"
+                              }'>
+                           
+                              @foreach (var item in Model.BookImages)
+                              {
+                                    if (item.PosterStatus==true)
+                                    {
+                                        <div class="single-slide">
+                                            <img src="~/image/products/@item.Image" alt="">
+                                        </div>
+                                    }
+                              }
+                        </div>
+                        <!-- Product Details Slider Nav -->
+                        <div class="mt--30 product-slider-nav sb-slick-slider arrow-type-two" data-slick-setting='{
+                            "infinite":true,
+                              "autoplay": true,
+                              "autoplaySpeed": 8000,
+                              "slidesToShow": 4,
+                              "arrows": true,
+                              "prevArrow":{"buttonClass": "slick-prev","iconClass":"fa fa-chevron-left"},
+                              "nextArrow":{"buttonClass": "slick-next","iconClass":"fa fa-chevron-right"},
+                              "asNavFor": ".product-details-slider",
+                              "focusOnSelect": true
+                              }'>
+                            @foreach (var item in Model.BookImages)
+                            {
+                                <div class="single-slide">
+                                    <img src="~/image/products/@item.Image" alt="">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="product-details-info pl-lg--30 ">
+@*                             <p class="tag-block">Tags: <a href="#">Movado</a>, <a href="#">@Model.Author.Name</a></p>
+ *@
+                            <p class="tag-block">
+                                @if (Model.BookTags==null)
+                                {
+                                    <span>This book doesnt have any tags</span>
+                                }
+                                else
+                                {
+                                Tags:
+                                    foreach(var item in Model.BookTags)
+                                    {
+                                        <span>@item.Tag.Name</span>
+                                    }
+                                }
+                            </p>
+                            <h3 class="product-title">@Model.Name</h3>
+                            <ul class="list-unstyled">
+                                <li>Ex Tax: <span class="list-value"> £60.24</span></li>
+                                <li>Brands: <a href="#" class="list-value font-weight-bold">@Model.Genre.Name</a></li>
+                                <li>Product Code: <span class="list-value">@Model.Code</span></li>
+@*                                 <li>Reward Points: <span class="list-value"> 200</span></li>
+                        *@
+                        <li>Availability: <span class="list-value">@(Model.IsAvailable ? " In Stock" : "Out Of Stock")</span></li>
+                            </ul>
+                            <div class="price-block">
+                                @if (Model.DiscountedPrice == Model.Price)
+                                {
+                                    <span class="price-new">£@Model.DiscountedPrice</span>
+                                    <del class="price-old">£@Model.DiscountedPrice</del>
+                                }
+                                else
+                                {
+                                    <span class="price-new">£@Model.DiscountedPrice</span>
+                                    <del class="price-old">£@Model.Price</del>
+                                }
+                            </div>
+                            <div class="rating-widget">
+                                <div class="rating-block">
+                                    @for (int i = 1; i <=5; i++)
+                                    {
+                                        <span class="fas fa-star @(i<=Model.Rate?"star_on":"")"></span>
+                                    }
+                                </div>
+                                <div class="review-widget">
+                                    <a href="#">(@Model.Comments.Where(x=>x.Status==true).Count() Reviews)</a> <span>|</span>
+                                    <a href="#">Write a review</a>
+                                </div>
+                            </div>
+                            <article class="product-details-article">
+                                <h4 class="sr-only">Product Summery</h4>
+                                <p>
+                                    Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust
+                                    with ruffles at the bottom of the
+                                    dress.
+                                </p>
+                            </article>
+                            <div class="add-to-cart-row">
+                                <div class="count-input-block">
+                                    <span class="widget-label">Qty</span>
+                                    <input type="number" class="form-control text-center" value="1">
+                                </div>
+                                <div class="add-cart-btn">
+                                    <a href="#" class="btn btn-outlined--primary">
+                                        <span class="plus-icon">+</span>Add to
+                                        Cart
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="compare-wishlist-row">
+                                <a href="#" class="add-link"><i class="fas fa-heart"></i>Add to Wish List</a>
+                                <a href="#" class="add-link"><i class="fas fa-random"></i>Add to Compare</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-custom-tab review-tab section-padding">
+                    <ul class="nav nav-tabs nav-style-2" id="myTab2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#tab-1" role="tab"
+                               aria-controls="tab-1" aria-selected="true">
+                                DESCRIPTION
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#tab-2" role="tab"
+                               aria-controls="tab-2" aria-selected="true">
+                                REVIEWS (@Model.Comments.Where(x=>x.Status==true).Count())
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content space-db--20" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
+                            <article class="review-article">
+                                <h1 class="sr-only">Tab Article</h1>
+                                <p>
+                                    @Model.Desc
+                                </p>
+                            </article>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
+                            <div class="review-wrapper">
+                                    <h2 class="title-lg mb--20"> @(Model.Comments.Where(x => x.Status == true).Count() == 0 ? "" : $"{Model.Comments.Where(x => x.Status == true).Count()} comments for {Model.Id} {Model.Name}")</h2>
+                                    <div id="comments">
+
+                                        <div class="review-comment mb--20">
+                                            @foreach (var item in Model.Comments.Where(x => x.Status == true).OrderByDescending(x => x.CreatedDate).Take(2))
+                                            {
+                                                <div class="avatar">
+                                                    <img src="~/image/icon/author-logo.png" alt="">
+                                                </div>
+                                                <div class="text">
+                                                    <div class="rating-block mb--15">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <span class="ion-android-star-outline @(i<=item.Rate?"star_on":"")"></span>
+                                                        }
+                                                    </div>
+                                                    <h6 class="author">
+                                                        @item.AppUser.FullName – <span class="font-weight-400">@item.CreatedDate.ToString("dd-MM-yyyy")</span>
+                                                    </h6>
+                                                    <p>
+                                                        @item.Text
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+
+                                        <div class="text">
+
+                                            <div class="d-flex justify-content-center">
+                                                <a asp-action="loadcomment" asp-route-bookId="@Model.Id" 
+                                                dataPage="2" max-Page="@Math.Ceiling(Model.Comments.Count/2d)" id="loadcomment">Load More</a>
+                                            </div>
+@*                                             <p>There's no user that has commented on this book yet...</p>
+ *@                                            <h2 class="title-lg mb--20 pt--15">ADD A REVIEW</h2>
+                                            <form method="post" asp-action="addcomment" class="mt--15 site-form ">
+                                                <div class="rating-row pt-2">
+                                                    <p class="d-block">Your Rating</p>
+                                                    <div class="rate">
+                                                        <input type="radio" id="star5" name="Rate" value="5" />
+                                                        <label for="star5" title="text">5 stars</label>
+                                                        <input type="radio" id="star4" name="Rate" value="4" />
+                                                        <label for="star4" title="text">4 stars</label>
+                                                        <input type="radio" id="star3" name="Rate" value="3" />
+                                                        <label for="star3" title="text">3 stars</label>
+                                                        <input type="radio" id="star2" name="Rate" value="2" />
+                                                        <label for="star2" title="text">2 stars</label>
+                                                        <input type="radio" id="star1" name="Rate" value="1" />
+                                                        <label for="star1" title="text">1 star</label>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="Text">Comment</label>
+                                                                <textarea name="Text" id="Text" cols="30" rows="10" class="form-control"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="submit-btn">
+                                                                <button type="submit" class="btn btn-black">Post Comment</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="BookId" value="@Model.Id" />
+                                    </form>                                        
+                                        </div>
+                                    
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="tab-product-details">
+                  <div class="brand">
+                    <img src="~/image/others/review-tab-product-details.jpg" alt="">
+                  </div>
+                  <h5 class="meta">Reference <span class="small-text">demo_5</span></h5>
+                  <h5 class="meta">In stock <span class="small-text">297 Items</span></h5>
+                  <section class="product-features">
+                    <h3 class="title">Data sheet</h3>
+                    <dl class="data-sheet">
+                      <dt class="name">Compositions</dt>
+                      <dd class="value">Viscose</dd>
+                      <dt class="name">Styles</dt>
+                      <dd class="value">Casual</dd>
+                      <dt class="name">Properties</dt>
+                      <dd class="value">Maxi Dress</dd>
+                    </dl>
+                  </section>
+                </div> -->
+@*             </div>
+ *@            <!--=================================
+                RELATED PRODUCTS BOOKS
+            ===================================== -->
+            <section class="">
+                <div class="container">
+                    <div class="section-title section-title--bordered">
+                        <h2>RELATED PRODUCTS</h2>
+                    </div>
+                    <div class="product-slider sb-slick-slider slider-border-single-row" data-slick-setting='{
+                "autoplay": true,
+                "autoplaySpeed": 8000,
+                "slidesToShow": 4,
+                "dots":true
+            }' data-slick-responsive='[
+                {"breakpoint":1200, "settings": {"slidesToShow": 4} },
+                {"breakpoint":992, "settings": {"slidesToShow": 3} },
+                {"breakpoint":768, "settings": {"slidesToShow": 2} },
+                {"breakpoint":480, "settings": {"slidesToShow": 1} }
+            ]'>
+                @foreach (var item in books)
+                {
+                    <div class="single-slide">
+                        <div class="product-card">
+                            <div class="product-header">
+                                <a href="#" class="author">
+                                    @item.Author.Name
+                                </a>
+                                <h3><a asp-action="detail" asp-route-id="@item.Id">@item.Name</a></h3>
+                            </div>
+                            <div class="product-card--body">
+                                <div class="card-image">
+                                        <img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==true).Image" alt="">
+                                    <div class="hover-contents">
+                                        <a asp-action="detail" asp-route-id="@item.Id" class="hover-image">
+                                            <img src="~/image/products/@item.BookImages.FirstOrDefault(x=>x.PosterStatus==false).Image" alt="">
+                                        </a>
+                                        <div class="hover-btns">
+                                            <a asp-action="addtobasket" asp-controller="book" asp-route-id="@item.Id" class="single-btn">
+                                                <i class="fas fa-shopping-basket"></i>
+                                            </a>
+                                            <a href="wishlist.html" class="single-btn">
+                                                <i class="fas fa-heart"></i>
+                                            </a>
+                                            <a href="compare.html" class="single-btn">
+                                                <i class="fas fa-random"></i>
+                                            </a>
+                                            <a asp-action="getdetailedbook" asp-route-id="@item.Id">
+                                                   
+                                                   class="single-btn show-book-modal"
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="price-block">
+                                    @if (item.DiscountedPrice==item.Price)
+                                    {
+                                        <span class="price">£@item.DiscountedPrice</span>
+                                        <del class="price-old">£@item.Price</del>
+                                    }
+                                    else
+                                    {
+                                        <span class="price">£@item.DiscountedPrice</span>
+                                        <del class="price-old">£@item.Price</del>
+                                    }
+                                    @* <span class="price-discount">20%</span> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                    </div>
+                </div>
+            </section>
+            <!-- Modal -->
+            <div class="modal fade modal-quick-view" id="quickModal" tabindex="-1" role="dialog"
+                 aria-labelledby="quickModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="product-details-modal">
+                            @* ---------------------- MODAL ------------------------- *@
+                        </div>
+                        <div class="modal-footer">
+                            <div class="widget-social-share">
+                                <span class="widget-label">Share:</span>
+                                <div class="modal-social-share">
+                                    <a href="#" class="single-icon"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="single-icon"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="single-icon"><i class="fab fa-youtube"></i></a>
+                                    <a href="#" class="single-icon"><i class="fab fa-google-plus-g"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script>
+
+        // $(document).ready(function(){
+        //     ("#loadcomment").on("click",e=>{
+        //         e.preventDefault();
+        //         let nextPage=$(this).attr("dataPage")
+        //         var url=$(this).attr
+        //     })
+        // })
+        $(document).ready(function(){
+            $(document).on("click", "#loadcomment", function (e) {
+                e.preventDefault();
+                var nextPage = $(this).attr("dataPage");
+                var url = $(this).attr("href") + "&page=" + nextPage;
+                console.log('nextPage '+nextPage)
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        // for (var i = 0; i < data.data.length; i++) {
+                        //     console.log(data.data[i].text)
+                        // }
+                        // const comments=document.getElementById('comments')
+                        // comments.innerHTML=data
+                        $("#comments").html(data)
+                    })
+                const maxPage = $(this).attr("max-Page")
+                if (maxPage == nextPage){
+                    $(this).remove()
+                }
+                nextPage = +nextPage + 1
+                console.log('nextPage after incre'+nextPage)
+                $(this).attr("dataPage", nextPage)
+                //console.log(url)
+            })
+        })
+
+
+        // $(document).ready(function(){
+        //     $("#loadcomment").on("click",e=>{
+        //         e.preventDefault();
+        //         let nextPage=$(this).attr("dataPage")
+        //         var url=$(this).attr("href")+"&page="+nextPage
+
+        //         fetch(url)
+        //             .then(response=>response.text())
+        //             .then(data=>{
+
+        //                 $("#comments").html(data)
+        //             })
+        //         let maxPage=$(this).attr("max-Page")
+        //         if (maxPage == nextPage) {
+        //             $(this).removeAttr("href")
+        //         }
+        //         nextPage=+nextPage+1
+        //         $(this).attr("dataPage",nextPage)
+
+        //     })
+        // })
+    </script>
+}

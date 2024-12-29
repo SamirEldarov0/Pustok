@@ -1,0 +1,36 @@
+﻿@model Author
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Author</h1>
+<div class="container-fluid">
+    <h1> create </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        @* eyni view-a submit ediremse create viewdan create actiona submit ediremse action vermeye ehtiyac yox *@
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input type="text" asp-for="Name" class="form-control" id="Name" placeholder="name">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Desc">Desc</label>
+            @*  type="text"  *@
+            @*  id="name" placeholder="name" *@
+            <textarea asp-for="Desc" class="form-control"></textarea>
+            <span class="text-danger" asp-validation-for="Desc"></span>
+        </div>
+
+        <div class="form-group">
+@*             <input type="file" name="poster" value="" />
+ *@            <input asp-for="ImageFile" value="" />
+               <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+

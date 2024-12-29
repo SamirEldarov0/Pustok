@@ -1,0 +1,160 @@
+﻿@model OrderCreateViewModel
+@{
+	ViewData["Title"] = "Index";
+	double totalPrice = 0;
+}
+
+@if (TempData["OrderSucceded"] != null)
+{
+	//<input type="hidden" id="order-toast-message" data-succeded="@TempData["OrderSucceded"]"/>
+	// value="@TempData["OrderSucceded"]"
+}
+		<section class="breadcrumb-section">
+			<h2 class="sr-only">Site Breadcrumb</h2>
+			<div class="container">
+				<div class="breadcrumb-contents">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a asp-action="index" asp-controller="">Home</a></li>
+							<li class="breadcrumb-item active">Checkout</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</section>
+		<main id="content" class="page-section inner-page-sec-padding-bottom space-db--20">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<!-- Checkout Form s-->
+						<div class="checkout-form">
+							<div class="row row-40">
+								<div class="col-12">
+									<h1 class="quick-title">Checkout</h1>
+									<!-- Slide Down Trigger  -->
+									<div class="checkout-quick-box">
+										<p><i class="far fa-sticky-note"></i>Returning customer? <a href="javascript:"
+												class="slide-trigger" data-target="#quick-login">Click
+												here to login</a></p>
+									</div>
+									<!-- Slide Down Blox ==> Login Box  -->
+									<div class="checkout-slidedown-box" id="quick-login">
+										<form action="https://template.hasthemes.com/pustok/pustok/">
+											<div class="quick-login-form">
+												<p>If you have shopped with us before, please enter your details in the
+													boxes below. If you are a new
+													customer
+													please
+													proceed to the Billing & Shipping section.</p>
+												<div class="form-group">
+													<label for="quick-user">Username or email *</label>
+													<input type="text" placeholder="" id="quick-user">
+												</div>
+												<div class="form-group">
+													<label for="quick-pass">Password *</label>
+													<input type="text" placeholder="" id="quick-pass">
+												</div>
+												<div class="form-group">
+													<div class="d-flex align-items-center flex-wrap">
+														<a href="#" class="btn btn-outlined me-3">Login</a>
+														<div class="d-inline-flex align-items-center">
+															<input type="checkbox" id="accept_terms" class="mb-0 mx-1">
+															<label for="accept_terms" class="mb-0">I’ve read and accept
+																the terms &amp; conditions</label>
+														</div>
+													</div>
+													<p><a href="javascript:" class="pass-lost mt-3">Lost your
+															password?</a></p>
+												</div>
+											</div>
+										</form>
+									</div>
+									<!-- Slide Down Trigger  -->
+									<div class="checkout-quick-box">
+										<p><i class="far fa-sticky-note"></i>Have a coupon? <a href="javascript:"
+												class="slide-trigger" data-target="#quick-cupon">
+												Click here to enter your code</a></p>
+									</div>
+									<!-- Slide Down Blox ==> Cupon Box -->
+									<div class="checkout-slidedown-box" id="quick-cupon">
+										<form action="https://template.hasthemes.com/pustok/pustok/">
+											<div class="checkout_coupon">
+												<input type="text" class="mb-0" placeholder="Coupon Code">
+												<a href="#" class="btn btn-outlined">Apply coupon</a>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-lg-7 mb--20">
+									<!-- Billing Address -->
+									<div id="billing-form" class="mb-40">
+										<h4 class="checkout-title">Billing Address</h4>
+										<div class="row">
+											@* asp-action="create" eger OrderControllerinde Index(checkout) olsa idi buna ehtiyac yoxdu*@
+											@* asp-action="create" *@
+											<form id="order-create" method="post">
+												<div class="col-12 mb--20">
+													<label asp-for="Country">Country</label>
+													<input class="mb-0 form-control" asp-for="Country" placeholder="Enter Your Country Here..">
+													<span class="text-danger" asp-validation-for="Country"></span>
+												</div>
+
+												<div class="col-12 mb--20">
+													<label asp-for="City">City</label>
+													<input class="mb-0 form-control" asp-for="City" placeholder="Enter Your City Here..">
+													<span class="text-danger" asp-validation-for="City"></span>
+												</div>
+
+												<div class="col-12 mb--20">
+													<label asp-for="State">State</label>
+													<input class="mb-0 form-control" asp-for="State" placeholder="Enter Your State Here..">
+													<span class="text-danger" asp-validation-for="State"></span>
+												</div>
+
+
+												<div class="col-12 mb--20">
+													<label asp-for="Address">Address</label>
+													<textarea class="mb-0 form-control" asp-for="Address" placeholder="Enter Your Address Here.."></textarea>
+													<span class="text-danger" asp-validation-for="Address"></span>
+												</div>
+
+
+												<div class="col-12 mb--20">
+													<label asp-for="Note">Note</label>
+													<textarea class="mb-0 form-control" asp-for="Note" placeholder="Add your notes.."></textarea>
+													<span class="text-danger" asp-validation-for="Note"></span>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-5">
+									<div class="row">
+										<!-- Cart Total -->
+										<div class="col-12">
+											<div class="checkout-cart-total">
+												<h2 class="checkout-title">YOUR ORDER</h2>
+												<h4>Product <span>Total</span></h4>
+												<ul>
+													@foreach (var item in Model.BasketItems)
+													{
+														<li>
+															<span class="left">@item.Book.Name X @item.Count</span> <span class="right">$@item.Book.DiscountedPrice</span>
+														</li>
+														totalPrice += item.Book.DiscountedPrice * item.Count;
+													}
+							
+												</ul>
+	
+												<h4>Total<span>$@totalPrice</span></h4>
+												<button type="submit" form="order-create" class="place-order w-100">Place order</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>

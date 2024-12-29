@@ -1,0 +1,48 @@
+﻿@model Slider
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Title">Title</label>
+            <input type="text" asp-for="Title" class="form-control" id="Title" placeholder="Title">
+            <span class="text-danger" asp-validation-for="Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Subtitle">Subtitle</label>
+            <input type="text" asp-for="Subtitle" class="form-control" id="Subtitle" placeholder="Subtitle">
+            <span class="text-danger" asp-validation-for="Subtitle"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PriceText">PriceText</label>
+            <input type="text" asp-for="PriceText" class="form-control" placeholder="PriceText">
+            <span class="text-danger" asp-validation-for="PriceText"></span>
+        </div>
+        <div class="form-group">
+@*             <label asp-for="ImageFile">ImageFile</label>
+ *@         
+            <img style="height:200px;width:200px;" id="willbedeleted" src="~/uploads/sliders/@Model.Image" />
+            @* <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAApklEQVR4nOXQMQ4BURSF4T+htYRZBCV7mCinFDWNhD1QsoexD8NCaEmmJDEJzSuU99wbBfMnr3nJO1/yoC0tgBp4pVOnO7nqY8R7qm8DB/6+XeB7thZgFQCWFqAIAIUFGAWAoQXIAkBmATrA0zHeAF2MXRzAGaGTAzgqwN4BlAqwcQBrBZg7gJkCjB1ArgADB9BXgB7wEMbv6Y3UFLgZxq/ARB3/nd5G6fCJTgW3rQAAAABJRU5ErkJggg=="> *@
+           
+            <img src="~/manage/img/added/delete.png" id="del-img"/>
+            <label asp-for="ImageFile" class="form-label">ImageFile</label>
+            <input type="file" asp-for="ImageFile">
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+
+
+        $(document).ready(function () {
+            $("#del-img").on("click", function () {
+                $("#willbedeleted").hide()
+            })
+        })
+    </script>
+}

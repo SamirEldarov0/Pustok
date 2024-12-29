@@ -1,0 +1,207 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card" style="width: 38rem;">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h6 class="card-title mb-2 text-muted">User FullName : @Model.AppUser.FullName</h6>
+            <h6 class="card-title mb-2 text-muted">User Email : @Model.AppUser.Email</h6>
+            <h6 class="card-title mb-2 text-muted">Order Address : @Model.Address</h6>
+            <h6 class="card-title mb-2 text-muted">Order Country : @Model.Country</h6>
+            <h6 class="card-title mb-2 text-muted">Order City : @Model.City</h6>
+            <h6 class="card-title mb-2 text-muted">Order State : @Model.State</h6>
+            <h6 class="card-title mb-2 text-muted">Different Product Count : @Model.OrderItems.Count()</h6>
+            <h6 class="card-title mb-2 text-muted">Total Product Count : @Model.OrderItems.Sum(x => x.Count)</h6>
+            <h6 class="card-title mb-2 text-muted">User note : @Model.Note</h6>
+            @if (Model.Status!=null)
+            {
+                <h6 class="card-title mb-2 text-muted">Admin note : @Model.AdminNote</h6>
+            }
+            <h6 class="card-title mb-2 text-muted">
+                Status :
+                @if (Model.Status == null)
+                {
+                    <span class="badge badge-warning">Pending</span>
+                }
+                else if (Model.Status == true)
+                {
+                    <span class="badge badge-success">Accepted</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Rejected</span>
+                }
+            </h6>
+            <br />
+            <h4>Products</h4>
+            <ul>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <li>
+                        <h6 class="card-title mb-2 text-muted">
+                            @item.Book.Name x @item.Count - Total : @(item.Price * item.Count)
+                        </h6>
+                    </li>
+                }
+            </ul>
+
+            @if (Model.Status == null)
+            {
+                <form>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="note">Note</label>
+                            <textarea name="Note" id="note" class="form-control"></textarea>
+                            <span class="text-danger" id="note-error"></span>
+                        </div>
+                    </div>
+            
+@*                     <button type="submit" class="btn btn-primary">Submit</button>
+ *@                </form>
+                <a asp-action="acceptorder" asp-route-id="@Model.Id" class="btn btn-success order-accept">Accept Order</a>
+                //order-accept
+                <a asp-action="rejectorder" asp-route-id="@Model.Id" class="btn btn-danger order-reject">Reject Order</a>
+                //order-reject
+            }
+@*             <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a> *@
+        </div>
+    </div>
+    
+</div>
+
+@section Scripts{
+    <script>
+        // $(document).ready(function(){
+        //     $(".order-accept").on("click", function (e) {
+        //         e.preventDefault();
+        //         var note = $("#note").val()
+        //         console.log(note)
+        //         var url = $(this).attr("href") + "?note=" + note
+        //         fetch(url)
+        //             .then(res => res.json())
+        //             .then(data => {
+
+        //                 window.location.href = "https://localhost:44390/manage/Order/index"
+        //             })
+        //     });
+
+        //     // $(".order-reject").on("click",function(){
+        //     //     e.preventDefault();
+        //     //     var note = $("#note").val();
+      
+        //     //         var url = $(this).attr("href") + "?note="+note;
+        //     //         fetch(url)
+        //     //             .then(res => res.json())
+        //     //             .then(data => {
+        //     //                 if (data.status == 400) {
+        //     //                     $("#note-error").text("Note is required")
+        //     //                 }
+        //     //                 else
+        //     //                 {
+        //     //                     window.location.href = "https://localhost:44390/manage/Order/index"
+        //     //                 }                           
+        //     //             })
+        //     //     }
+
+        //     })
+        // })
+
+
+        // $(document).ready(function(){
+        //     $('.order-accept').on('click',function(e){
+        //         e.preventDefault();
+        //         let note = $("#note").val();
+        //         var url = $(this).attr("href")+"?note="+note;
+        //         fetch(url)
+        //             .then(reponse=>response.json())
+        //             .then(data=>{
+        //                 window.location.href = "https://localhost:44390/manage/Order"
+        //             })
+        //         console.log(url)
+        //     })
+
+        //     $('.order-reject').on('click',function(e){
+        //         e.preventDefault()
+        //         let note = $('#note').val()
+        //         // if (note == "") {
+        //         //     $('#note-error').text('Note is required')
+        //         // }
+        //         // else {
+
+
+        //         //     $('note-error').empty()
+        //         //     let url = $(this).attr('href') + "?note=" + note;
+        //         //     console.log(url)
+        //         // }
+        //         var url = $(this).attr("href") + "?note=" + note;
+        //         fetch(url)
+        //             .then(reponse=>response.json())
+        //             .then(data=>{
+        //                 if (data.status == 400) {
+        //                     $('#note-error').text('Note is required')
+        //                 }
+        //                 else {
+        //                     window.location.href = "https://localhost:44390/manage/Order"
+        //                 }
+        //             })
+
+        //     })
+
+       
+        // })
+        // $(document).ready(function(){
+        //     $(document).on("click",".order-accept",function(e){
+        //         e.preventDefault()
+        //         var note = $("#note").val();               
+        //         var url = $(this).attr("href") + "?note" + note;
+        //         fetch(url)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 if (data.status == 400) {
+        //                     $("#note-error").text("Note is required")
+        //                 }
+        //                 else if (data.status == 200) {
+        //                     window.location.href = "https://localhost:44390/manage/Order";//   /manage/order
+        //                     //window.location.reload(true);
+        //                 }
+        //                     //window.location.href = "https://localhost:44390/manage/Order"                    
+        //             });
+        //         // console.log(url)
+        //     })
+
+        //     $(document).on("click", ".order-reject", function (e) {
+        //         e.preventDefault()
+        //         var note = $("#note").val();
+
+        //         if (note == "")
+        //         {
+        //             $("#note-error").text("Note is required")
+        //         }
+        //         else
+        //         {
+        //             var url = $(this).attr("href") + "?note" + note;
+        //             fetch(url)
+        //                 .then(response => response.json())
+        //                 .then(data => {
+        //                     if (data.status == 400) {
+        //                         $("#note-error").text("Note is required")
+        //                     }
+        //                     else if(data.status==200){
+        //                         window.location.href = "https://localhost:44390/manage/Order";//   /manage/order
+        //                         window.location.reload(true);
+        //                     }
+        //                 });
+        //             // $("#note-error").empty();
+                    
+        //             // console.log(url)
+        //         }
+
+        //     })
+        // })
+    </script>
+}

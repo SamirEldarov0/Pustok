@@ -1,0 +1,77 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+    int order = 1;
+}
+
+
+<main class="page-section inner-page-sec-padding-bottom">
+    <div class="container">
+        <div class="container-fluid">
+            <h1>Orders...</h1>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Book Count</th>
+                        <th>Ordered Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@order</td>
+                            <td>@item.OrderItems.Count()</td>
+                            <td>@item.OrderedDate.ToString("dd - MM - yyyy || hh-mm-ss")</td>
+                            <td>@item.TotalPrice</td>
+                            <td>
+                                @if (item.Status == null)
+                                {
+                                    <span class="badge text-bg-warning">Pending</span>
+                                    @* <span style="color:orange;font-size:1rem" class="badge-info">Pending</span> *@
+                                }
+                                else if (item.Status == true)
+                                {
+                                    <span class="badge text-bg-success">Accepted</span>
+                                    @* <span style="color:limegreen;font-size:1rem" class="badge badge-success">Accepted</span> *@
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-danger">Rejected</span>
+                                    @* <span style="color:red;font-size:1rem" class="badge badge-warning">Rejected</span> *@
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="detail" asp-route-id="@item.Id" class="btn btn-warning">Detail</a>
+                            </td>
+                        </tr>
+                        order++;
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")">
+                        <a class="page-link" asp-action="index" asp-route-page="@(ViewBag.SelectedPage-1)">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                    {
+                        <li class="page-item @(ViewBag.SelectedPage==i?"active":"")"><a class="page-link" asp-action="index" asp-route-page="@i">@i</a></li>
+                    }
+
+                    <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                        <a class="page-link asp-action="index" asp-route-page="@(ViewBag.SelectedPage+1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</main>
+
+
+

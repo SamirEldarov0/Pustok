@@ -1,0 +1,16 @@
+﻿@model Publisher
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid">
+    <h1>Add a publisher</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter ur name" aria-describedby="Name">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

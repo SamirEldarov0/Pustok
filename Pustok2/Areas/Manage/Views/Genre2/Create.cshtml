@@ -1,0 +1,16 @@
+﻿@model Genre
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid">
+    <h1>Create</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label class="form-label" asp-for="Name">Name</label>
+            <input class="form-control" asp-for="Name" placeholder="Enter ur name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+    </form>
+</div>
